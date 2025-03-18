@@ -1,6 +1,7 @@
 package com.phongngohong08.bookingroom.mapper;
 
 import com.phongngohong08.bookingroom.dtos.request.RegisterRequest;
+import com.phongngohong08.bookingroom.dtos.request.UpdateUserRequest;
 import com.phongngohong08.bookingroom.dtos.response.UserResponse;
 import com.phongngohong08.bookingroom.entities.User;
 import org.mapstruct.Mapper;
@@ -14,5 +15,5 @@ public interface UserMapper {
     UserResponse toUserResponse(User user);
 
     @Mapping(target = "roles", ignore = true)
-    void updateUser(@MappingTarget User user, RegisterRequest request);
+    void updateUser(@MappingTarget User user, UpdateUserRequest request);
 }

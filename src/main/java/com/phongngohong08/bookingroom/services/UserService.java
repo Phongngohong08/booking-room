@@ -6,6 +6,7 @@ import com.phongngohong08.bookingroom.dtos.request.UpdateUserRequest;
 import com.phongngohong08.bookingroom.dtos.response.UserResponse;
 import com.phongngohong08.bookingroom.entities.Role;
 import com.phongngohong08.bookingroom.entities.User;
+import com.phongngohong08.bookingroom.mapper.UserMapper;
 import com.phongngohong08.bookingroom.repositories.RoleRepository;
 import com.phongngohong08.bookingroom.repositories.UserRepository;
 import lombok.AccessLevel;
@@ -22,29 +23,20 @@ public class UserService {
 
     UserRepository userRepository;
     RoleRepository roleRepository;
+    UserMapper userMapper;
 
     public UserResponse createUser(RegisterRequest request) {
+
+        User user = userMapper.toUser(request);
 
         HashSet<Role> roles = new HashSet<>();
         roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
 
-        User user = User.builder()
-                .email(request.getEmail())
-                .dob(request.getDob())
-                .username(request.getUsername())
-                .hashedPassword(request.getPassword())
-                .roles(roles)
-                .build();
+        user.setRoles(roles);
 
         user = userRepository.save(user);
 
-        return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .dob(user.getDob())
-                .roles(new HashSet<>())
-                .build();
+        return userMapper.toUserResponse(user);
     }
 
     public UserResponse updateUser(String userId, UpdateUserRequest request) {
@@ -52,30 +44,16 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new RuntimeException("User not found"));
 
-        user.setDob(request.getDob());
-        user.setUsername(request.getUsername());
-        user.setHashedPassword(request.getPassword());
+        userMapper.updateUser(user, request);
 
         user = userRepository.save(user);
 
-        return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .dob(user.getDob())
-                .roles(new HashSet<>())
-                .build();
+        return userMapper.toUserResponse(user);
     }
 
     public UserResponse getUserById(String userId) {
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new RuntimeException("User not found"));
-        return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .dob(user.getDob())
-                .roles(new HashSet<>())
-                .build();
+        return userMapper.toUserResponse(user);
     }
 }
