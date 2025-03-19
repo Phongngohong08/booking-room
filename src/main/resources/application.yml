@@ -1,3 +1,9 @@
+jwt:
+    signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ik"
+    valid-duration: 3600
+    refreshable-duration: 36000
+server:
+    port: 8000
 spring:
     application:
         name: booking-room
@@ -10,5 +16,3 @@ spring:
         hibernate:
             ddl-auto: update
         show-sql: true
-server:
-    port: 8000
