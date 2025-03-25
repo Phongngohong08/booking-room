@@ -36,4 +36,30 @@ public class UserController {
                 userResponse
         ).build();
     }
+
+    @GetMapping
+    @PreAuthorize("hasRole('admin')")
+    public ApiResponse<List<UserResponse>> getAllUsers() {
+        List<UserResponse> userResponses = userService.getAllUsers();
+        return ApiResponse.<List<UserResponse>>builder().result(
+                userResponses
+        ).build();
+    }
+
+    @DeleteMapping("/{userId}")
+    @PreAuthorize("hasRole('admin')")
+    public ApiResponse<UserResponse> deleteUser(@PathVariable String userId) {
+        UserResponse userResponse = userService.deleteUser(userId);
+        return ApiResponse.<UserResponse>builder().result(
+                userResponse
+        ).build();
+    }
+
+    @GetMapping("/my_info")
+    public ApiResponse<UserResponse> getMyInfo() {
+        UserResponse userResponse = userService.getMyInfo();
+        return ApiResponse.<UserResponse>builder().result(
+                userResponse
+        ).build();
+    }
 }

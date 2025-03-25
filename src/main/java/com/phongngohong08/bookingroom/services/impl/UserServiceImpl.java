@@ -16,10 +16,12 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -65,5 +67,34 @@ public class UserServiceImpl implements UserService {
     public UserResponse getUserById(String userId) {
         return userMapper.toUserResponse(userRepository.findById(userId).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
+    @Override
+    public UserResponse deleteUser(String userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        UserResponse userResponse = userMapper.toUserResponse(user);
+        userRepository.delete(user);
+
+        return userResponse;
+    }
+
+    @Override
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+    }
+
+    @Override
+    public UserResponse getMyInfo() {
+
+        var context = SecurityContextHolder.getContext();
+        String email = context.getAuthentication().getName();
+
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        return userMapper.toUserResponse(user);
     }
 }

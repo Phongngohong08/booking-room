@@ -16,3 +16,9 @@ spring:
         hibernate:
             ddl-auto: update
         show-sql: true
+aws:
+    s3:
+        access:
+            key: AKIA45Y2RS6O7XCYS34O
+        secret:
+            key: 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

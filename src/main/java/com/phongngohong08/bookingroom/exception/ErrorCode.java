@@ -15,6 +15,12 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    UNABLE_TO_UPLOAD_IMAGE(1009, "Unable to upload image to s3 bucket", HttpStatus.INTERNAL_SERVER_ERROR),
+    ROOM_NOT_EXISTED(1010, "Room not existed", HttpStatus.NOT_FOUND),
+    ROOM_NOT_AVAILABLE(1011, "Room not available", HttpStatus.BAD_REQUEST),
+    BOOKING_NOT_EXISTED(1012, "Booking not existed", HttpStatus.NOT_FOUND),
+    NOT_ENOUGH_INFORMATION(1013, "Not enough information", HttpStatus.BAD_REQUEST),
+    INVALID_PRICE(1014, "Price must be greater than 0", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
