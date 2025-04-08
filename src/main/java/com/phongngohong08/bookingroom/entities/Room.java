@@ -33,4 +33,15 @@ public class Room {
 
     LocalDate createdAt;
     LocalDate updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDate.now();
+    }
 }

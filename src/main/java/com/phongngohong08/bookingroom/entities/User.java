@@ -25,12 +25,26 @@ public class User {
 
     @Column(name = "hashed_password")
     String hashedPassword;
+
     String username;
     LocalDate dob;
+    LocalDate createdAt;
+    LocalDate updatedAt;
 
     @ManyToMany
     Set<Role> roles;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDate.now();
+    }
 }

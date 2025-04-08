@@ -9,6 +9,7 @@ import com.phongngohong08.bookingroom.enums.BookingStatus;
 import com.phongngohong08.bookingroom.exception.AppException;
 import com.phongngohong08.bookingroom.exception.ErrorCode;
 import com.phongngohong08.bookingroom.mapper.BookingMapper;
+import com.phongngohong08.bookingroom.mapping.BookingMapping;
 import com.phongngohong08.bookingroom.repositories.BookingRepository;
 import com.phongngohong08.bookingroom.repositories.RoomRepository;
 import com.phongngohong08.bookingroom.repositories.UserRepository;
@@ -66,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
     public BookingResponse findBookingById(String bookingId) {
 
         return bookingRepository.findById(bookingId)
-                .map(bookingMapper::toBookingResponse)
+                .map(BookingMapping::toBookingResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.BOOKING_NOT_EXISTED));
     }
 
@@ -75,7 +76,7 @@ public class BookingServiceImpl implements BookingService {
 
         return bookingRepository.findAll()
                 .stream()
-                .map(bookingMapper::toBookingResponse)
+                .map(BookingMapping::toBookingResponse)
                 .toList();
     }
 
@@ -86,15 +87,22 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new AppException(ErrorCode.BOOKING_NOT_EXISTED));
 
         booking.setStatus(BookingStatus.CANCELLED.getStatus());
+        bookingRepository.save(booking);
         return bookingMapper.toBookingResponse(booking);
     }
 
     @Override
     public List<BookingResponse> getUserBookingHistory(String userId) {
 
-        return bookingRepository.findByUserId(userId)
-                .stream()
-                .map(bookingMapper::toBookingResponse)
+        List<Booking> bookings = bookingRepository.findByUserId(userId);
+
+        return bookings.stream()
+                .map(booking -> {
+                    BookingResponse response = bookingMapper.toBookingResponse(booking);
+                    response.setUserId(userId);
+                    response.setRoomId(booking.getRoom().getId());
+                    return response;
+                })
                 .toList();
     }
 

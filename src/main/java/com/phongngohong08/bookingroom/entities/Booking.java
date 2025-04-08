@@ -34,4 +34,15 @@ public class Booking {
     Long amount;
     LocalDate createdAt;
     LocalDate updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDate.now();
+    }
 }

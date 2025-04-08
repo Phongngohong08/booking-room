@@ -68,7 +68,11 @@ public class AuthServiceImpl implements AuthService {
 
         var token = generateToken(user);
 
-        return AuthResponse.builder().token(token).authenticated(true).build();
+        return AuthResponse.builder()
+                .token(token)
+                .role(user.getRoles().stream().findFirst().get().getName())
+                .authenticated(true)
+                .build();
     }
 
     public IntrospectResponse introspect(IntrospectRequest request)

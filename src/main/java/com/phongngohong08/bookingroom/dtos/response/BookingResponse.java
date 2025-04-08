@@ -17,6 +17,7 @@ public class BookingResponse {
     String roomId;
     LocalDate checkinDate;
     LocalDate checkoutDate;
+    String status;
     LocalDate createdAt;
     LocalDate updatedAt;
 }

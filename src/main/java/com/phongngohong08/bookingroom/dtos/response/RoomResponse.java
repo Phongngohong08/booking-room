@@ -18,6 +18,7 @@ public class RoomResponse {
     String createdByUserId;
 
     String name;
+    String photoUrl;
     String description;
     Long pricePerDay;
     Integer capacity;

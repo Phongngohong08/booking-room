@@ -12,5 +12,6 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthResponse {
     String token;
+    String role;
     boolean authenticated;
 }

@@ -3,7 +3,6 @@ package com.phongngohong08.bookingroom.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,8 +20,11 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
     private final String[] PUBLIC_ENDPOINTS = {
-            "/auth/register", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh_token"
+            "/auth/register", "/auth/login", "/auth/introspect", "/auth/logout", "/auth/refresh_token",
+            "/v2/api-docs", "/swagger-ui/**", "/favicon.ico", "/swagger-resources/**",
+            "/rooms/room_types", "/rooms/available_rooms", "/rooms/available_rooms_by_date_and_type",
     };
 
     @Autowired
@@ -30,10 +32,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+        httpSecurity.authorizeHttpRequests(request -> request
+                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                .anyRequest().authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
                         .decoder(customJwtDecoder)

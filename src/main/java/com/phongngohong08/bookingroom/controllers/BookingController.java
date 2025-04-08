@@ -43,7 +43,7 @@ public class BookingController {
         return ApiResponse.<BookingResponse>builder().result(bookingResponse).build();
     }
 
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('admin')")
     public ApiResponse<BookingResponse> cancelBooking(@PathVariable String id) {
         BookingResponse bookingResponse = bookingService.cancelBooking(id);

@@ -29,7 +29,6 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("hasRole('admin')")
     public ApiResponse<UserResponse> getUserById(@PathVariable String userId) {
         UserResponse userResponse = userService.getUserById(userId);
         return ApiResponse.<UserResponse>builder().result(
