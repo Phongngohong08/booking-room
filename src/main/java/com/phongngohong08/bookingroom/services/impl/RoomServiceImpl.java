@@ -54,13 +54,12 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String createRoomType(String roomType) {
+    public String createRoomType(String name) {
         RoomType newRoomType = new RoomType();
-        newRoomType.setName(roomType);
+        newRoomType.setName(name);
         roomTypeRepository.save(newRoomType);
-        return roomType;
+        return name;
     }
-
 
     @Override
     public List<RoomResponse> getAllRooms() {

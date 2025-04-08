@@ -1,6 +1,7 @@
 package com.phongngohong08.bookingroom.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -27,6 +28,9 @@ public class SecurityConfig {
             "/rooms/room_types", "/rooms/available_rooms", "/rooms/available_rooms_by_date_and_type",
     };
 
+    @Value("${app.cors.allowed-origins}")
+    private String allowedOrigin;
+
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
@@ -49,7 +53,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOrigin(allowedOrigin);
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
 

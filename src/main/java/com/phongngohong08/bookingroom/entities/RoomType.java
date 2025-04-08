@@ -1,9 +1,10 @@
 package com.phongngohong08.bookingroom.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -14,7 +15,23 @@ import lombok.experimental.FieldDefaults;
 public class RoomType {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String id;
+
+    @Column(unique = true)
     String name;
 
-    String description;
+    LocalDate createdAt;
+    LocalDate updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDate.now();
+        updatedAt = LocalDate.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDate.now();
+    }
 }

@@ -1,0 +1,27 @@
+jwt:
+    signerKey: ${JWT_SECRET_KEY}
+    valid-duration: ${JWT_VALID_DURATION:3600}
+    refreshable-duration: ${JWT_REFRESHABLE_DURATION:604800}
+server:
+    port: ${SERVER_PORT:8000}
+spring:
+    application:
+        name: ${APP_NAME:booking-room}
+    datasource:
+        url: ${DB_URL}
+        username: ${DB_USERNAME:root}
+        password: ${DB_PASSWORD:root}
+        driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    jpa:
+        hibernate:
+            ddl-auto: ${DB_DDL_AUTO:update}
+        show-sql: true
+aws:
+    s3:
+        access:
+            key: ${AWS_ACCESS_KEY}
+        secret:
+            key: ${AWS_SECRET_KEY}
+app:
+    cors:
+        allowed-origins: ${CORS_ALLOWED_ORIGINS}

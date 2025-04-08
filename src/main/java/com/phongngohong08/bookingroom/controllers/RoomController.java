@@ -35,7 +35,7 @@ public class RoomController {
             @RequestParam(value = "capacity", required = false) Integer capacity,
             @RequestParam(value = "room_type", required = false) String roomType
     ) {
-        if (photo == null || photo.isEmpty()) {
+        if (photo == null || name.isBlank() || pricePerDay == null || roomType.isBlank()) {
             throw new AppException(ErrorCode.NOT_ENOUGH_INFORMATION);
         }
         if (pricePerDay <= 0) {
@@ -64,7 +64,7 @@ public class RoomController {
             @RequestParam(value = "capacity", required = false) Integer capacity,
             @RequestParam(value = "room_type", required = false) String roomType
     ) {
-        if (photo == null && name == null && pricePerDay == null && description == null && roomType == null) {
+        if (photo == null || name.isBlank() || pricePerDay == null || roomType.isBlank()) {
             throw new AppException(ErrorCode.NOT_ENOUGH_INFORMATION);
         }
         RoomRequest roomRequest = RoomRequest.builder()
@@ -121,8 +121,8 @@ public class RoomController {
     }
 
     @PostMapping("/room_types")
-    public ApiResponse<String> createRoomType(@RequestParam(value = "room_type") String roomType) {
-        String newRoomType = roomService.createRoomType(roomType);
+    public ApiResponse<String> createRoomType(@RequestParam(value = "name") String name) {
+        String newRoomType = roomService.createRoomType(name);
         return ApiResponse.<String>builder().result(newRoomType).build();
     }
 }
