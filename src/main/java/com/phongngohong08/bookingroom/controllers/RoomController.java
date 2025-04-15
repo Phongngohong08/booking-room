@@ -35,7 +35,7 @@ public class RoomController {
             @RequestParam(value = "capacity", required = false) Integer capacity,
             @RequestParam(value = "room_type", required = false) String roomType
     ) {
-        if (photo == null || name.isBlank() || pricePerDay == null || roomType.isBlank()) {
+        if (photo == null || pricePerDay == null || roomType.isBlank()) {
             throw new AppException(ErrorCode.NOT_ENOUGH_INFORMATION);
         }
         if (pricePerDay <= 0) {
