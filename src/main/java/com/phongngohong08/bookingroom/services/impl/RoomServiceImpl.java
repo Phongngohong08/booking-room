@@ -40,6 +40,13 @@ public class RoomServiceImpl implements RoomService {
         String imageUrl = awsS3Service.saveImageToS3(photo);
         room.setPhotoUrl(imageUrl);
 
+        Boolean isRoomTypeExist = roomTypeRepository.existsByName(roomRequest.getRoomType());
+        if (!isRoomTypeExist) {
+            RoomType roomType = new RoomType();
+            roomType.setName(roomRequest.getRoomType());
+            roomTypeRepository.save(roomType);
+        }
+
         Room savedRoom = roomRepository.save(room);
 
         return roomMapper.toRoomResponse(savedRoom);

@@ -9,4 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RoomTypeRepository extends JpaRepository<RoomType, String> {
+
+    Boolean existsByName(String name);
 }
